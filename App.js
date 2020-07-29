@@ -9,11 +9,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo-hooks';
+import { ThemeProvider } from 'styled-components';
 import options from './apollo';
+import style from './style';
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [client, setClient] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const preLoad = async () => {
     try {
       console.log(loaded);
@@ -28,6 +31,12 @@ export default function App() {
         cache,
         ...options,
       });
+      const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      if (isLoggedIn === null || isLoggedIn === false) {
+        setIsLoggedIn(false);
+      } else {
+        setIsLoggedIn(true);
+      }
       setLoaded(true);
       setClient(client);
       console.log(loaded);
@@ -38,11 +47,11 @@ export default function App() {
   useEffect(() => {
     preLoad();
   }, []);
-  return loaded && client ? (
+  return loaded && client && isLoggedIn !== null ? (
     <ApolloProvider client={client}>
-      <View>
-        <Text>Expo First App!</Text>
-      </View>
+      <ThemeProvider theme={style}>
+        <View>{isLoggedIn ? <Text>I'm in</Text> : <Text>I'm out</Text>}</View>
+      </ThemeProvider>
     </ApolloProvider>
   ) : (
     <AppLoading />
