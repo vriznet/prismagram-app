@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Asset } from 'expo-asset';
-import { AsyncStorage, Text, View } from 'react-native';
+import { AsyncStorage, Text, View, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -32,7 +32,7 @@ export default function App() {
         ...options,
       });
       const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
-      if (isLoggedIn === null || isLoggedIn === false) {
+      if (isLoggedIn === null || isLoggedIn === 'false') {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
@@ -47,10 +47,41 @@ export default function App() {
   useEffect(() => {
     preLoad();
   }, []);
+
+  const logUserIn = async () => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'true');
+      setIsLoggedIn(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logUserOut = async () => {
+    try {
+      await AsyncStorage.setItem('isLoggedIn', 'false');
+      setIsLoggedIn(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return loaded && client && isLoggedIn !== null ? (
     <ApolloProvider client={client}>
       <ThemeProvider theme={style}>
-        <View>{isLoggedIn ? <Text>I'm in</Text> : <Text>I'm out</Text>}</View>
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          {isLoggedIn ? (
+            <TouchableOpacity onPress={logUserOut}>
+              <Text>Log out</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={logUserIn}>
+              <Text>Log In</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </ThemeProvider>
     </ApolloProvider>
   ) : (
