@@ -1,22 +1,14 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useIsLoggedIn, useLogUserIn, useLogUserOut } from '../AuthContext';
+import { View } from 'react-native';
+import { useIsLoggedIn } from '../AuthContext';
 import AuthNavigation from '../navigation/AuthNavigation';
+import TabNavigation from '../navigation/TabNavigation';
 
 export default () => {
-  const isLoggedIn = useIsLoggedIn();
-  const logUserIn = useLogUserIn();
-  const logUserOut = useLogUserOut();
+  const isLoggedIn = true;
   return (
     <View style={{ flex: 1 }}>
-      {isLoggedIn ? (
-        <TouchableOpacity onPress={logUserOut}>
-          <Text>Log out</Text>
-        </TouchableOpacity>
-      ) : (
-        <AuthNavigation />
-      )}
+      {isLoggedIn ? <TabNavigation /> : <AuthNavigation />}
     </View>
   );
 };
