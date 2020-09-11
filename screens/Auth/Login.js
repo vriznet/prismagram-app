@@ -18,7 +18,7 @@ const View = styled.View`
 export default ({ navigation }) => {
   const emailInput = useInput('');
   const [loading, setLoading] = useState(false);
-  const [requestSecret] = useMutation(LOG_IN, {
+  const [requestSecretMutation] = useMutation(LOG_IN, {
     variables: {
       email: emailInput.value,
     },
@@ -35,9 +35,17 @@ export default ({ navigation }) => {
     }
     try {
       setLoading(true);
-      await requestSecret();
-      Alert.alert('Check your email');
-      navigation.navigate('Confirm');
+      const {
+        data: { requestSecret },
+      } = await requestSecretMutation();
+      if (requestSecret) {
+        Alert.alert('Check your email');
+        navigation.navigate('Confirm');
+        return;
+      } else {
+        Alert.alert('Account not found');
+        navigation.navigate('SignUp');
+      }
     } catch (error) {
       console.log(error);
       Alert.alert('Cannot log in now.');
@@ -54,7 +62,7 @@ export default ({ navigation }) => {
           keyboardType="email-address"
           autoCapitalize="none"
           returnKeyType="send"
-          onEndEditing={handleLogin}
+          onSubmitEditing={handleLogin}
           autoCorrect={false}
         />
         <AuthButton loading={loading} text="Log In" onPress={handleLogin} />
