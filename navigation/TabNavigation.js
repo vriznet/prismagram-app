@@ -9,6 +9,7 @@ import Notifications from '../screens/Tab/Notifications';
 import Profile from '../screens/Tab/Profile';
 import MessagesLink from '../components/MessagesLink';
 import NavIcon from '../components/NavIcon';
+import { stackStyles } from './config';
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator({
@@ -16,7 +17,7 @@ const stackFactory = (initialRoute, customConfig) =>
       screen: initialRoute,
       navigationOptions: {
         ...customConfig,
-        headerStyle: { backgroundColor: '#efeeef' },
+        headerStyle: { ...stackStyles },
       },
     },
   });
@@ -87,7 +88,7 @@ export default createBottomTabNavigator(
   {
     tabBarOptions: {
       showLabel: false,
-      tabStyle: {
+      style: {
         backgroundColor: '#efeeef',
       },
     },
