@@ -14,7 +14,10 @@ const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator({
     InitialRoute: {
       screen: initialRoute,
-      navigationOptions: { ...customConfig },
+      navigationOptions: {
+        ...customConfig,
+        headerStyle: { backgroundColor: '#efeeef' },
+      },
     },
   });
 
@@ -26,16 +29,22 @@ export default createBottomTabNavigator(
         headerTitle: () => <NavIcon name="logo-instagram" size={36} />,
       }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
+          />
         ),
       },
     },
     Search: {
       screen: stackFactory(Search, { title: 'Search' }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
+          />
         ),
       },
     },
@@ -44,24 +53,33 @@ export default createBottomTabNavigator(
       navigationOptions: {
         tabBarOnPress: ({ navigation }) =>
           navigation.navigate('PhotoNavigation'),
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+          />
         ),
       },
     },
     Notifications: {
       screen: stackFactory(Notifications, { title: 'Notifications' }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+          />
         ),
       },
     },
     Profile: {
       screen: stackFactory(Profile, { title: 'Profile' }),
       navigationOptions: {
-        tabBarIcon: (
-          <NavIcon name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+        tabBarIcon: ({ focused }) => (
+          <NavIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'}
+          />
         ),
       },
     },
@@ -69,6 +87,9 @@ export default createBottomTabNavigator(
   {
     tabBarOptions: {
       showLabel: false,
+      tabStyle: {
+        backgroundColor: '#efeeef',
+      },
     },
   }
 );
