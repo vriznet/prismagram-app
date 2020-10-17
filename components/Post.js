@@ -30,7 +30,7 @@ const HeaderUserContainer = styled.View`
 
 const Bold = styled.Text`
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 700;
 `;
 
 const Location = styled.Text`
@@ -43,15 +43,25 @@ const PhotoOfPost = styled.Image`
 `;
 
 const IconsContainer = styled.View`
-  padding: 5px 0px 0px 12px;
   flex-direction: row;
+  margin-bottom: 3px;
 `;
 
 const IconContainer = styled.View`
   margin-right: 10px;
 `;
 
-const Post = ({ user, location, files = [] }) => {
+const InfoContainer = styled.View`
+  padding: 5px 0px 0px 12px;
+`;
+
+const LikeCountContainer = styled.Text`
+  margin-bottom: 4px;
+`;
+
+const Caption = styled.Text``;
+
+const Post = ({ user, location, files = [], likeCount, caption }) => {
   return (
     <Container>
       <Header>
@@ -70,26 +80,34 @@ const Post = ({ user, location, files = [] }) => {
           <PhotoOfPost key={file.id} source={{ uri: file.url }} />
         ))}
       </Swiper>
-      <IconsContainer>
-        <Touchable>
-          <IconContainer>
-            <Ionicons
-              size={28}
-              name={
-                Platform.OS === 'ios' ? 'ios-heart-empty' : 'md-heart-empty'
-              }
-            />
-          </IconContainer>
-        </Touchable>
-        <Touchable>
-          <IconContainer>
-            <Ionicons
-              size={28}
-              name={Platform.OS === 'ios' ? 'ios-text' : 'md-text'}
-            />
-          </IconContainer>
-        </Touchable>
-      </IconsContainer>
+      <InfoContainer>
+        <IconsContainer>
+          <Touchable>
+            <IconContainer>
+              <Ionicons
+                size={28}
+                name={
+                  Platform.OS === 'ios' ? 'ios-heart-empty' : 'md-heart-empty'
+                }
+              />
+            </IconContainer>
+          </Touchable>
+          <Touchable>
+            <IconContainer>
+              <Ionicons
+                size={28}
+                name={Platform.OS === 'ios' ? 'ios-text' : 'md-text'}
+              />
+            </IconContainer>
+          </Touchable>
+        </IconsContainer>
+        <LikeCountContainer>
+          <Bold>{likeCount === 1 ? '1 like' : `${likeCount} likes`}</Bold>
+        </LikeCountContainer>
+        <Caption>
+          <Bold>{user.username}</Bold> {caption}
+        </Caption>
+      </InfoContainer>
     </Container>
   );
 };
