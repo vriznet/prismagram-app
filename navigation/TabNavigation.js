@@ -7,6 +7,7 @@ import Home from '../screens/Tab/Home';
 import Search from '../screens/Tab/Search/';
 import Notifications from '../screens/Tab/Notifications';
 import Profile from '../screens/Tab/Profile';
+import Detail from '../screens/Detail';
 import MessagesLink from '../components/MessagesLink';
 import NavIcon from '../components/NavIcon';
 import { stackStyles } from './config';
@@ -20,6 +21,7 @@ const stackFactory = (initialRoute, customConfig) =>
         headerStyle: { ...stackStyles },
       },
     },
+    Detail,
   });
 
 export default createBottomTabNavigator(
