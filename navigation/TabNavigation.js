@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { View } from 'react-native';
 import Home from '../screens/Tab/Home';
-import Search from '../screens/Tab/Search';
+import Search from '../screens/Tab/Search/';
 import Notifications from '../screens/Tab/Notifications';
 import Profile from '../screens/Tab/Profile';
 import MessagesLink from '../components/MessagesLink';

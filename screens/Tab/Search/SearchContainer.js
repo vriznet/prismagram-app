@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '../../../components/SearchBar';
+import SearchPresenter from './SearchPresenter';
 
 const View = styled.View`
   justify-content: center;
@@ -25,6 +26,7 @@ export default class extends React.Component {
     const { navigation } = props;
     this.state = {
       term: '',
+      shouldFetch: false,
     };
     navigation.setParams({
       term: this.state.term,
@@ -34,19 +36,16 @@ export default class extends React.Component {
   }
   onChange = (text) => {
     const { navigation } = this.props;
-    this.setState({ text });
+    this.setState({ term: text, shouldFetch: false });
     navigation.setParams({
       term: text,
     });
   };
-  onSubmit = () => {
-    console.log(this.state.text);
+  onSubmit = async () => {
+    await this.setState({ shouldFetch: true });
   };
   render() {
-    return (
-      <View>
-        <Text>Search</Text>
-      </View>
-    );
+    const { term, shouldFetch } = this.state;
+    return <SearchPresenter term={term} shouldFetch={shouldFetch} />;
   }
 }
