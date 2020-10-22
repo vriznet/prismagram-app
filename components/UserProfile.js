@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const UserProfile = () => null;
+const UserProfile = ({ username }) => {
+  console.log(username);
+  return null;
+};
 
 UserProfile.propTypes = {
   id: PropTypes.string.isRequired,

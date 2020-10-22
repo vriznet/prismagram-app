@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Platform } from 'react-native';
 import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
@@ -8,6 +8,7 @@ import { gql } from 'apollo-boost';
 import constants from '../constants';
 import style from '../style';
 import { useMutation } from 'react-apollo-hooks';
+import { withNavigation } from 'react-navigation';
 
 const Container = styled.View`
   margin-bottom: 20px;
@@ -78,6 +79,7 @@ const Post = ({
   likeCount: likeCountProp,
   caption,
   isLiked: isLikedProp,
+  navigation,
 }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
@@ -103,11 +105,19 @@ const Post = ({
   return (
     <Container>
       <Header>
-        <Touchable>
+        <Touchable
+          onPress={() =>
+            navigation.navigate('UserDetail', { username: user.username })
+          }
+        >
           <Avatar source={{ uri: user.avatar }} />
         </Touchable>
         <HeaderUserContainer>
-          <Touchable>
+          <Touchable
+            onPress={() =>
+              navigation.navigate('UserDetail', { username: user.username })
+            }
+          >
             <Bold>{user.username}</Bold>
             <Location>{location}</Location>
           </Touchable>
@@ -186,4 +196,4 @@ Post.propTypes = {
   createdAt: PropTypes.string.isRequired,
 };
 
-export default Post;
+export default withNavigation(Post);

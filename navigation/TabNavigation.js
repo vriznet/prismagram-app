@@ -12,6 +12,7 @@ import MessagesLink from '../components/MessagesLink';
 import NavIcon from '../components/NavIcon';
 import { stackStyles } from './config';
 import style from '../style';
+import UserDetail from '../screens/UserDetail';
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -29,6 +30,14 @@ const stackFactory = (initialRoute, customConfig) =>
           headerBackTitle: ' ',
           headerTintColor: style.blackColor,
           title: 'Photo',
+        },
+      },
+      UserDetail: {
+        screen: UserDetail,
+        navigationOptions: {
+          headerBackTitle: ' ',
+          headerTintColor: style.blackColor,
+          title: 'Profile',
         },
       },
     },
