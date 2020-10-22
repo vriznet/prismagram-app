@@ -18,6 +18,7 @@ const GET_USER = gql`
 export default ({ navigation }) => {
   const { loading, data } = useQuery(GET_USER, {
     variables: { username: navigation.getParam('username') },
+    fetchPolicy: 'network-only',
   });
 
   return (

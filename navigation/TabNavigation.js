@@ -34,11 +34,11 @@ const stackFactory = (initialRoute, customConfig) =>
       },
       UserDetail: {
         screen: UserDetail,
-        navigationOptions: {
-          headerBackTitle: ' ',
+        navigationOptions: ({ navigation }) => ({
+          title: navigation.getParam('username'),
           headerTintColor: style.blackColor,
-          title: 'Profile',
-        },
+          headerBackTitle: ' ',
+        }),
       },
     },
     {
