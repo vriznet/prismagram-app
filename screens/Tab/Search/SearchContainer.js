@@ -13,7 +13,7 @@ const Text = styled.Text``;
 
 export default class extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: (
+    headerTitle: () => (
       <SearchBar
         value={navigation.getParam('term', '')}
         onChange={navigation.getParam('onChange', () => null)}

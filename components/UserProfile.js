@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, View, TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import style from '../style';
 import constants from '../constants';
+import Post from './Post';
+import SquarePhoto from './SquarePhoto';
 
 const ProfileHeader = styled.View`
   flex-direction: row;
@@ -45,10 +47,18 @@ const Bio = styled.Text`
 const ButtonContainer = styled.View`
   flex-direction: row;
   margin-top: 14px;
+  margin-bottom: 8px;
 `;
 const Button = styled.View`
   width: ${constants.width / 2}px;
   align-items: center;
+`;
+const GridContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+const ListContainer = styled.View`
+  flex-direction: column-reverse;
 `;
 
 const UserProfile = ({
@@ -58,54 +68,72 @@ const UserProfile = ({
   followingCount,
   fullName,
   bio,
-}) => (
-  <View>
-    <ProfileHeader>
-      <Image
-        style={{ height: 60, width: 60, borderRadius: 30, marginRight: 60 }}
-        source={{ uri: avatar }}
-      />
-      <HeaderColumn>
-        <ProfileStats>
-          <Stat>
-            <StatNumber>{postsCount}</StatNumber>
-            <StatName>게시물</StatName>
-          </Stat>
-          <Stat>
-            <StatNumber>{followersCount}</StatNumber>
-            <StatName>팔로워</StatName>
-          </Stat>
-          <Stat>
-            <StatNumber>{followingCount}</StatNumber>
-            <StatName>팔로잉</StatName>
-          </Stat>
-        </ProfileStats>
-      </HeaderColumn>
-    </ProfileHeader>
-    <ProfileMeta>
-      <FullName>{fullName}</FullName>
-      <Bio>{bio}</Bio>
-    </ProfileMeta>
-    <ButtonContainer>
-      <TouchableOpacity>
-        <Button>
-          <Ionicons
-            size={26}
-            name={Platform.OS === 'ios' ? 'ios-grid' : 'md-grid'}
-          />
-        </Button>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Button>
-          <Ionicons
-            size={26}
-            name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
-          />
-        </Button>
-      </TouchableOpacity>
-    </ButtonContainer>
-  </View>
-);
+  posts,
+}) => {
+  const [isGrid, setIsGrid] = useState(true);
+  const toggleGrid = () => setIsGrid((i) => !i);
+  const postList = posts && posts.reverse();
+  return (
+    <View>
+      <ProfileHeader>
+        <Image
+          style={{ height: 60, width: 60, borderRadius: 30, marginRight: 60 }}
+          source={{ uri: avatar }}
+        />
+        <HeaderColumn>
+          <ProfileStats>
+            <Stat>
+              <StatNumber>{postsCount}</StatNumber>
+              <StatName>게시물</StatName>
+            </Stat>
+            <Stat>
+              <StatNumber>{followersCount}</StatNumber>
+              <StatName>팔로워</StatName>
+            </Stat>
+            <Stat>
+              <StatNumber>{followingCount}</StatNumber>
+              <StatName>팔로잉</StatName>
+            </Stat>
+          </ProfileStats>
+        </HeaderColumn>
+      </ProfileHeader>
+      <ProfileMeta>
+        <FullName>{fullName}</FullName>
+        <Bio>{bio}</Bio>
+      </ProfileMeta>
+      <ButtonContainer>
+        <TouchableOpacity onPress={toggleGrid}>
+          <Button>
+            <Ionicons
+              size={26}
+              color={isGrid ? style.blackColor : style.darkGrayColor}
+              name={Platform.OS === 'ios' ? 'ios-grid' : 'md-grid'}
+            />
+          </Button>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={toggleGrid}>
+          <Button>
+            <Ionicons
+              size={26}
+              color={isGrid ? style.darkGrayColor : style.blackColor}
+              name={Platform.OS === 'ios' ? 'ios-list' : 'md-list'}
+            />
+          </Button>
+        </TouchableOpacity>
+      </ButtonContainer>
+      {isGrid ? (
+        <GridContainer>
+          {postList &&
+            postList.map((post) => <SquarePhoto key={post.id} {...post} />)}
+        </GridContainer>
+      ) : (
+        <ListContainer>
+          {postList && postList.map((post) => <Post key={post.id} {...post} />)}
+        </ListContainer>
+      )}
+    </View>
+  );
+};
 
 UserProfile.propTypes = {
   id: PropTypes.string.isRequired,

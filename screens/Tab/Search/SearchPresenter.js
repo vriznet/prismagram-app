@@ -21,6 +21,12 @@ const SEARCH = gql`
   }
 `;
 
+const SearchContainer = styled.View`
+  padding-top: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const SearchPresenter = ({ term, shouldFetch }) => {
   const [refreshing, setRefresing] = useState(false);
   const { data, loading, refetch } = useQuery(SEARCH, {
@@ -28,7 +34,6 @@ const SearchPresenter = ({ term, shouldFetch }) => {
     skip: !shouldFetch,
     fetchPolicy: 'network-only',
   });
-  console.log(data);
   const onRefresh = async () => {
     try {
       setRefresing(true);
@@ -48,9 +53,13 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       {loading ? (
         <Loader />
       ) : (
-        data &&
-        data.searchPost &&
-        data.searchPost.map((post) => <SquarePhoto key={post.id} {...post} />)
+        <SearchContainer>
+          {data &&
+            data.searchPost &&
+            data.searchPost.map((post) => (
+              <SquarePhoto key={post.id} {...post} />
+            ))}
+        </SearchContainer>
       )}
     </ScrollView>
   );
