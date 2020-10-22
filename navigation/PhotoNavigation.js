@@ -44,15 +44,12 @@ export default createStackNavigator(
   {
     Tabs: {
       screen: PhotoTabs,
-      navigationOptions: {
-        headerShown: false,
-      },
     },
     Upload,
   },
   {
     defaultNavigationOptions: {
-      title: 'Photo',
+      title: 'Choose Photo',
       headerStyle: {
         ...stackStyles,
       },

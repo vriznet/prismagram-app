@@ -4,10 +4,10 @@ import * as MediaLibrary from 'expo-media-library';
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import { Image } from 'react-native';
+import constants from '../../constants';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const View = styled.View`
-  justify-content: center;
-  align-items: center;
   flex: 1;
 `;
 
@@ -54,10 +54,29 @@ export default () => {
       ) : (
         <View>
           {hasPermission ? (
-            <Image
-              style={{ width: 100, height: 100 }}
-              source={{ uri: selected.uri }}
-            />
+            <React.Fragment>
+              <Image
+                style={{ width: constants.width, height: constants.height / 2 }}
+                source={{ uri: selected.uri }}
+              />
+              <ScrollView
+                contentContainerStyle={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {allPhotos.map((photo, index) => (
+                  <Image
+                    key={index}
+                    style={{
+                      width: constants.width / 3,
+                      height: constants.width / 3,
+                    }}
+                    source={{ uri: photo.uri }}
+                  />
+                ))}
+              </ScrollView>
+            </React.Fragment>
           ) : null}
         </View>
       )}
