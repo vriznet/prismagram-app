@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import constants from '../../constants';
+import style from '../../style';
 
 const View = styled.View`
   flex: 1;
@@ -12,7 +13,17 @@ const View = styled.View`
 
 const Text = styled.Text``;
 
-export default () => {
+const Button = styled.View`
+  background-color: ${style.blueColor};
+  width: 120px;
+  height: 26px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 3px 3px 6px rgb(50, 50, 50);
+`;
+
+export default ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [hasPermission, setHasPermission] = useState(false);
   const [selected, setSelected] = useState();
@@ -45,6 +56,10 @@ export default () => {
     }
   };
 
+  const handleSelected = () => {
+    navigation.navigate('Upload', { photo: selected });
+  };
+
   useEffect(() => {
     askPermission();
   }, []);
@@ -61,6 +76,21 @@ export default () => {
                 style={{ width: constants.width, height: constants.height / 2 }}
                 source={{ uri: selected.uri }}
               />
+              <TouchableOpacity
+                onPress={handleSelected}
+                style={{
+                  position: 'absolute',
+                  top: constants.height / 2 - 50,
+                  left: constants.width / 2 - 60,
+                }}
+              >
+                <Button>
+                  <Text style={{ color: 'white', fontWeight: '700' }}>
+                    Select Photo
+                  </Text>
+                </Button>
+              </TouchableOpacity>
+
               <ScrollView
                 contentContainerStyle={{
                   flexDirection: 'row',
