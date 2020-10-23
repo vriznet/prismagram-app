@@ -8,16 +8,16 @@ import { stackStyles } from './config';
 
 const PhotoTabs = createMaterialTopTabNavigator(
   {
-    Select: {
-      screen: SelectPhoto,
-      navigationOptions: {
-        tabBarLabel: 'Select',
-      },
-    },
     Take: {
       screen: TakePhoto,
       navigationOptions: {
         tabBarLabel: 'Take',
+      },
+    },
+    Select: {
+      screen: SelectPhoto,
+      navigationOptions: {
+        tabBarLabel: 'Select',
       },
     },
   },

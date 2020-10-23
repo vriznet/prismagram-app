@@ -1,5 +1,5 @@
 const options = {
-  uri: 'http://localhost:4000',
+  uri: 'https://prismagram.run.goorm.io',
 };
 
 export default options;
