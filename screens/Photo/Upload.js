@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Image,
   TouchableOpacity,
@@ -52,18 +53,45 @@ const Text = styled.Text`
 export default ({ navigation }) => {
   const [loading, setIsLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState('');
+  const photo = navigation.getParam('photo');
   const captionInput = useInput('');
   const locationInput = useInput('');
   const handleSubmit = async () => {
     if (captionInput.value === '' || locationInput.value === '') {
       Alert.alert('All fields are required');
     }
+    const formData = new FormData();
+    const name = photo.filename;
+    const [, type] = name.split('.');
+    const uri = photo.uri;
+    formData.append('file', {
+      name,
+      type: type.toLowerCase(),
+      uri,
+    });
+    try {
+      const {
+        data: { path },
+      } = await axios.post(
+        'https://prismagram.run.goorm.io/api/upload',
+        formData,
+        {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        }
+      );
+      setFileUrl(path);
+    } catch (e) {
+      Alert.alert('Cannot upload');
+      console.log(e);
+    }
   };
   return (
     <View>
       <Container>
         <Image
-          source={{ uri: navigation.getParam('photo').uri }}
+          source={{ uri: photo.uri }}
           style={{ height: 300, width: 300, marginBottom: 20 }}
         />
         <Form>
