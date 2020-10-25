@@ -71,7 +71,7 @@ export default ({ navigation }) => {
     });
     try {
       const {
-        data: { path },
+        data: { location },
       } = await axios.post(
         'https://prismagram.run.goorm.io/api/upload',
         formData,
@@ -81,7 +81,7 @@ export default ({ navigation }) => {
           },
         }
       );
-      setFileUrl(path);
+      setFileUrl(location);
     } catch (e) {
       Alert.alert('Cannot upload');
       console.log(e);
