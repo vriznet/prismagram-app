@@ -61,7 +61,7 @@ export default createStackNavigator(
       headerStyle: {
         ...stackStyles,
       },
-      headerBackTitle: ' ',
+      headerBackTitleVisible: false,
       headerTintColor: style.blackColor,
     },
   }

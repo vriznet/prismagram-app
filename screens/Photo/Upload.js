@@ -7,8 +7,25 @@ import {
   Alert,
 } from 'react-native';
 import styled from 'styled-components';
+import { gql } from 'apollo-boost';
 import useInput from '../../hooks/useInput';
 import style from '../../style';
+import { useMutation } from 'react-apollo-hooks';
+import { FEED_QUERY } from '../Tab/Home';
+
+const UPLOAD = gql`
+  mutation upload($caption: String!, $files: [String!]!, $location: String) {
+    upload(caption: $caption, files: $files, location: $location) {
+      id
+      location
+      caption
+      files {
+        id
+        url
+      }
+    }
+  }
+`;
 
 const View = styled.View`
   justify-content: center;
@@ -52,10 +69,16 @@ const Text = styled.Text`
 
 export default ({ navigation }) => {
   const [loading, setIsLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState('');
   const photo = navigation.getParam('photo');
   const captionInput = useInput('');
   const locationInput = useInput('');
+  const [uploadMutation] = useMutation(UPLOAD, {
+    variables: {
+      caption: captionInput.value,
+      location: locationInput.value,
+    },
+    refetchQueries: () => [{ query: FEED_QUERY }],
+  });
   const handleSubmit = async () => {
     if (captionInput.value === '' || locationInput.value === '') {
       Alert.alert('All fields are required');
@@ -70,6 +93,7 @@ export default ({ navigation }) => {
       uri,
     });
     try {
+      setIsLoading(true);
       const {
         data: { location },
       } = await axios.post(
@@ -81,10 +105,21 @@ export default ({ navigation }) => {
           },
         }
       );
-      setFileUrl(location);
+      const {
+        data: { upload },
+      } = await uploadMutation({
+        variables: {
+          files: [location],
+        },
+      });
+      if (upload.id) {
+        navigation.navigate('TabNavigation');
+      }
     } catch (e) {
       Alert.alert('Cannot upload');
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (

@@ -72,7 +72,6 @@ const UserProfile = ({
 }) => {
   const [isGrid, setIsGrid] = useState(true);
   const toggleGrid = () => setIsGrid((i) => !i);
-  const postList = posts && posts.reverse();
   return (
     <View>
       <ProfileHeader>
@@ -123,12 +122,12 @@ const UserProfile = ({
       </ButtonContainer>
       {isGrid ? (
         <GridContainer>
-          {postList &&
-            postList.map((post) => <SquarePhoto key={post.id} {...post} />)}
+          {posts &&
+            posts.map((post) => <SquarePhoto key={post.id} {...post} />)}
         </GridContainer>
       ) : (
         <ListContainer>
-          {postList && postList.map((post) => <Post key={post.id} {...post} />)}
+          {posts && posts.map((post) => <Post key={post.id} {...post} />)}
         </ListContainer>
       )}
     </View>

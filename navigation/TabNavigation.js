@@ -27,7 +27,7 @@ const stackFactory = (initialRoute, customConfig) =>
       Detail: {
         screen: Detail,
         navigationOptions: {
-          headerBackTitle: ' ',
+          headerBackTitleVisible: false,
           headerTintColor: style.blackColor,
           title: 'Photo',
         },
@@ -37,13 +37,15 @@ const stackFactory = (initialRoute, customConfig) =>
         navigationOptions: ({ navigation }) => ({
           title: navigation.getParam('username'),
           headerTintColor: style.blackColor,
-          headerBackTitle: ' ',
+          headerBackTitleVisible: false,
         }),
       },
     },
     {
       defaultNavigationOptions: {
         headerStyle: { ...stackStyles },
+        headerTintColor: style.blackColor,
+        headerBackTitleVisible: false,
       },
     }
   );
