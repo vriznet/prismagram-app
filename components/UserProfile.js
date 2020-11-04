@@ -57,9 +57,7 @@ const GridContainer = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
 `;
-const ListContainer = styled.View`
-  flex-direction: column-reverse;
-`;
+const ListContainer = styled.View``;
 
 const UserProfile = ({
   avatar,
